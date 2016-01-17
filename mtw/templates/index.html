@@ -1,0 +1,28 @@
+
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div id="imaginary_container">
+            <form action='/a' method="POST" class="input-group stylish-input-group">
+                <input type="text" class="form-control"  placeholder="Search" name="search">
+                <span class="input-group-addon">
+                    <button type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if url %}
+  <h1> <a href={{ url }}>{{ url }} </a></h1>
+{% endif %}
+{% endblock %}
+
+{% block random%} TEST {% endblock %}
+{% block top%} TEST {% endblock %}
+{% block comedy%} TEST {% endblock %}
