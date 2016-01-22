@@ -1,10 +1,21 @@
-from mtw import app
-from flask import request, redirect, render_template, url_for
+from mtw import app, mongo
+from flask import request, render_template, redirect, url_for
+from flask.ext.login import login_user, logout_user, login_required
+from .forms import LoginForm
+from .models import UserLogin
 
 
 @app.route("/")
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        user = mongo.db.users.findOne({'email': form.email.data})
+
+        if user and UserLogin.validate_login(user['password'], form.password.data):
+            user_obj = UserLogin(user['email'])
+            login_user(user_obj)
+            return redirect(request.args.get("next") or url_for("index"))
+    return render_template('login.html', title='Login', form=form)
 
 
 @app.route("/register")

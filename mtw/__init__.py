@@ -1,12 +1,21 @@
 from flask import Flask
-import flask.ext.mongoengine as mongoengine
+from flask.ext.pymongo import PyMongo
+from flask.ext.login import LoginManager
+
 
 app = Flask(__name__)
 
-app.config["MONGODB_SETTINGS"] = {"DB": "localhost:27017"}
-app.config["SECRET_KEY"] = "KeepThisS3cr3t"
+app.config["MONGO_HOST"] = "ds035004.mongolab.com"
+app.config["MONGO_PORT"] = "35004"
+app.config["MONGO_DBNAME"] = "mtw"
+app.config["MONGO_USERNAME"] = "admin"
+app.config["MONGO_PASSWORD"] = "admin"
 
-db = mongoengine.MongoEngine(app)
+mongo = PyMongo(app, config_prefix="MONGO")
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.view = 'login'
 
 
 import mtw.views
