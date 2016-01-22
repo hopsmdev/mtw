@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
+from mtw import app
+from flask import request, redirect, render_template, url_for
 
 
 @app.route("/")
@@ -21,7 +20,3 @@ def index():
 @app.route('/a', methods=['GET', 'POST'])
 def movie():
     return render_template('index.html', url=request.form['search'])
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
