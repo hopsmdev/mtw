@@ -1,3 +1,4 @@
+import os
 import unittest
 import flask
 from flask.ext.pymongo import PyMongo
@@ -8,7 +9,7 @@ def set_default_db(app):
     app.config["MONGO_PORT"] = "35004"
     app.config["MONGO_DBNAME"] = "mtw"
     app.config["MONGO_USERNAME"] = "admin"
-    app.config["MONGO_PASSWORD"] = "admin"
+    app.config["MONGO_PASSWORD"] = os.environ.get('MONGO_PASSWORD')
 
 
 class MongoDbTest(unittest.TestCase):
