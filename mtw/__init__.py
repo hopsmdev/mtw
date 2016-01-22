@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask.ext.pymongo import PyMongo
 from flask.ext.login import LoginManager
@@ -9,7 +10,7 @@ app.config["MONGO_HOST"] = "ds035004.mongolab.com"
 app.config["MONGO_PORT"] = "35004"
 app.config["MONGO_DBNAME"] = "mtw"
 app.config["MONGO_USERNAME"] = "admin"
-app.config["MONGO_PASSWORD"] = "admin"
+app.config["MONGO_PASSWORD"] = os.environ.get('MONGO_PASSWORD')
 
 mongo = PyMongo(app, config_prefix="MONGO")
 
