@@ -1,1 +1,1 @@
-web: gunicorn mtw.mtw:app --log-file -
+web: gunicorn mtw:app --log-file -
