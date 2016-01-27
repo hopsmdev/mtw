@@ -1,10 +1,6 @@
 from mtw import mongo, login_manager
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask.ext.login import UserMixin, AnonymousUserMixin
-
-
-def get_user(email):
-    return mongo.db.users.find_one({'email': email})
+from flask.ext.login import UserMixin
 
 
 def add_user(email, password):
@@ -14,18 +10,26 @@ def add_user(email, password):
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return mongo.db.users.find_one({'_id': user_id})
+def load_user(email):
+    u = mongo.db.users.find_one({'email': email})
+    if not u:
+        return None
+    return User(email)
 
 
-class UserLogin(UserMixin):
+class User(UserMixin):
 
-    def __init__(self, email):
+    def __init__(self, email, **kwargs):
+        super(User, self).__init__(**kwargs)
         self.email = email
 
     def get_id(self):
         return self.email
 
     @classmethod
-    def validate_login(cls, password_hash, password):
+    def verify_password(self, password_hash, password):
         return check_password_hash(password_hash, password)
+
+    @classmethod
+    def get_user(cls, email):
+        return mongo.db.users.find_one({'email': email})
