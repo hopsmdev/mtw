@@ -1,6 +1,7 @@
 from flask import (render_template, redirect, url_for, abort,
                    flash, request, current_app, make_response, g)
 from . import main
+from .. webscraper import videos
 from flask.ext.login import login_required, current_user
 
 
@@ -22,6 +23,12 @@ def index():
 @login_required
 def movie():
     if request.method == "POST":
-        return render_template('index.html', url=request.form['search'], user=g.user)
+
+        movies_list = videos.find_movie(request.form['search'])
+        print(movies_list)
+
+        return render_template(
+            'index.html', movies_list=movies_list, url=None, user=g.user)
+
     else:
         return render_template('index.html', user=g.user)

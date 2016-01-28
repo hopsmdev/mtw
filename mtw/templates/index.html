@@ -18,9 +18,19 @@
     </div>
 </div>
 
-{% if url %}
-  <h3> <a href={{ url }}>{{ url }} </a></h3>
+{% if movies_list %}
+    <ul>
+        {% for movie in movies_list %}
+        <li> {{movie.version }} <a href={{ movie.url }}> {{ movie.url }} </a></li>
+        {% endfor %}
+    </ul>
+
 {% endif %}
+
+{% if url %}
+    {{ url }}
+{% endif %}
+
 {% endblock %}
 
 {% block random%} TEST {% endblock %}
